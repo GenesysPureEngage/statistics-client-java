@@ -13,7 +13,7 @@
 
 package com.genesys.internal.common;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-10-13T22:34:35.358Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-10-13T23:23:54.929Z")
 public class Pair {
     private String name = "";
     private String value = "";
