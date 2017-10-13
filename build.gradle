@@ -1,0 +1,134 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'maven-publish'
+
+def versionPropsFile = file('version.properties')
+def versionBuild
+
+/*Setting default value for versionBuild which is the last incremented value stored in the file */
+if (versionPropsFile.canRead()) {
+	def Properties versionProps = new Properties()
+	versionProps.load(new FileInputStream(versionPropsFile))
+	versionBuild = versionProps['VERSION_BUILD'].toInteger()
+} else {
+	throw new GradleException("Could not read version.properties!")
+}
+
+group = 'com.genesys'
+version = '1.0.' + versionBuild
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+	dependencies {
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
+    }
+}
+
+apply plugin: 'io.codearte.nexus-staging'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'io.swagger:swagger-annotations:1.5.8'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'joda-time:joda-time:2.9.3'
+    testCompile 'junit:junit:4.12'
+}
+
+signing {
+    sign configurations.archives
+}
+
+	task incrementBuildNumber { 
+    doLast {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+		
+        println 'Version build updated to: ' + versionBuild
+    }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+task execute(type:JavaExec) {
+   main = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'Statistics API'	  
+        description 'A Java library to interface to Genesys Statistics public API'
+        url 'https://developer.genhtcc.com/api/statistics/index.html'
+
+        scm {
+          connection 'scm:git:git@github.com:GenesysPureEngage/statistics-client-java.git'
+          developerConnection 'scm:git:git@github.com:GenesysPureEngage/statistics-client-java.git'
+          url 'https://github.com/GenesysPureEngage/statistics-client-java'
+        }
+
+        licenses {
+          license {
+            name 'MIT License'
+            url 'https://opensource.org/licenses/MIT'
+            distribution 'repo'
+          }
+        }
+
+        developers {
+          developer {
+            name 'Genesys Inc'
+            email 'support@genesys.com'
+            organization 'Genesys Inc'
+            organizationUrl 'https://developer.genhtcc.com'
+          }
+        }
+      }
+    }
+  }
+}
+
+nexusStaging {  
+    username = ossrhUsername
+    password = ossrhPassword
+}
