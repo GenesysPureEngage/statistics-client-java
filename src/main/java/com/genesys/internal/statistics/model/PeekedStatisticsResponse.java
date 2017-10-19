@@ -16,6 +16,7 @@ package com.genesys.internal.statistics.model;
 import java.util.Objects;
 import com.genesys.internal.statistics.model.ApiResponseStatus;
 import com.genesys.internal.statistics.model.ModelApiResponse;
+import com.genesys.internal.statistics.model.PeekedStatistics;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -28,12 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ModelApiResponse
+ * PeekedStatisticsResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-10-19T18:34:47.253Z")
-public class ModelApiResponse {
+public class PeekedStatisticsResponse {
   @SerializedName("data")
-  private Object data = null;
+  private PeekedStatistics data = null;
 
   @SerializedName("errors")
   private List<ModelApiResponse> errors = null;
@@ -44,7 +45,7 @@ public class ModelApiResponse {
   @SerializedName("status")
   private ApiResponseStatus status = null;
 
-  public ModelApiResponse data(Object data) {
+  public PeekedStatisticsResponse data(PeekedStatistics data) {
     this.data = data;
     return this;
   }
@@ -54,20 +55,20 @@ public class ModelApiResponse {
    * @return data
   **/
   @ApiModelProperty(value = "")
-  public Object getData() {
+  public PeekedStatistics getData() {
     return data;
   }
 
-  public void setData(Object data) {
+  public void setData(PeekedStatistics data) {
     this.data = data;
   }
 
-  public ModelApiResponse errors(List<ModelApiResponse> errors) {
+  public PeekedStatisticsResponse errors(List<ModelApiResponse> errors) {
     this.errors = errors;
     return this;
   }
 
-  public ModelApiResponse addErrorsItem(ModelApiResponse errorsItem) {
+  public PeekedStatisticsResponse addErrorsItem(ModelApiResponse errorsItem) {
     if (this.errors == null) {
       this.errors = new ArrayList<ModelApiResponse>();
     }
@@ -88,7 +89,7 @@ public class ModelApiResponse {
     this.errors = errors;
   }
 
-  public ModelApiResponse path(String path) {
+  public PeekedStatisticsResponse path(String path) {
     this.path = path;
     return this;
   }
@@ -106,7 +107,7 @@ public class ModelApiResponse {
     this.path = path;
   }
 
-  public ModelApiResponse status(ApiResponseStatus status) {
+  public PeekedStatisticsResponse status(ApiResponseStatus status) {
     this.status = status;
     return this;
   }
@@ -133,11 +134,11 @@ public class ModelApiResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(this.data, _apiResponse.data) &&
-        Objects.equals(this.errors, _apiResponse.errors) &&
-        Objects.equals(this.path, _apiResponse.path) &&
-        Objects.equals(this.status, _apiResponse.status);
+    PeekedStatisticsResponse peekedStatisticsResponse = (PeekedStatisticsResponse) o;
+    return Objects.equals(this.data, peekedStatisticsResponse.data) &&
+        Objects.equals(this.errors, peekedStatisticsResponse.errors) &&
+        Objects.equals(this.path, peekedStatisticsResponse.path) &&
+        Objects.equals(this.status, peekedStatisticsResponse.status);
   }
 
   @Override
@@ -149,7 +150,7 @@ public class ModelApiResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ModelApiResponse {\n");
+    sb.append("class PeekedStatisticsResponse {\n");
     
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
