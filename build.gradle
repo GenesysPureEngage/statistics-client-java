@@ -41,7 +41,15 @@ dependencies {
     compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'joda-time:joda-time:2.9.3'
+    
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.cometd.java:cometd-api:1.1.5'
+    compile 'org.cometd.java:cometd-java-client:3.1.2'
+    compile 'org.cometd.java:bayeux-api:3.1.2'
+    compile 'org.eclipse.jetty:jetty-client:9.4.6.v20170531'
+    
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.10.0'
 }
 
 signing {
