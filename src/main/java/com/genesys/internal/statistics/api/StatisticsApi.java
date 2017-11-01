@@ -73,8 +73,9 @@ public class StatisticsApi {
         String localVarPath = "/subscriptions";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (verbose != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "verbose", verbose));
+        localVarQueryParams.addAll(apiClient.parameterToPair("verbose", verbose));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -105,7 +106,7 @@ public class StatisticsApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
     @SuppressWarnings("rawtypes")
@@ -204,6 +205,7 @@ public class StatisticsApi {
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -234,7 +236,7 @@ public class StatisticsApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
     @SuppressWarnings("rawtypes")
@@ -332,10 +334,11 @@ public class StatisticsApi {
             .replaceAll("\\{" + "statisticName" + "\\}", apiClient.escapeString(statisticName.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (objectId != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "objectId", objectId));
+        localVarQueryParams.addAll(apiClient.parameterToPair("objectId", objectId));
         if (objectType != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "objectType", objectType));
+        localVarQueryParams.addAll(apiClient.parameterToPair("objectType", objectType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -366,7 +369,7 @@ public class StatisticsApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
     @SuppressWarnings("rawtypes")
@@ -477,6 +480,7 @@ public class StatisticsApi {
         String localVarPath = "/operations/get-statistic-ex";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -507,7 +511,7 @@ public class StatisticsApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
     @SuppressWarnings("rawtypes")
@@ -605,10 +609,11 @@ public class StatisticsApi {
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (statisticIds != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "statisticIds", statisticIds));
+        localVarQueryParams.addAll(apiClient.parameterToPair("statisticIds", statisticIds));
         if (verbose != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "verbose", verbose));
+        localVarQueryParams.addAll(apiClient.parameterToPair("verbose", verbose));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -639,7 +644,7 @@ public class StatisticsApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
     @SuppressWarnings("rawtypes")
