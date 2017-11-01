@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * ApiResponseStatus
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-10-31T23:59:53.412Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-01T08:04:31.003Z")
 public class ApiResponseStatus {
   @SerializedName("code")
   private Integer code = null;
