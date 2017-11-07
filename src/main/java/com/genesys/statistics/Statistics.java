@@ -102,7 +102,7 @@ public class Statistics {
                     onServiceChange(data);
                 }
             });
-            notifications.subscribe("/statistics/v3/values", new Notifications.NotificationListener() {
+            notifications.subscribe("/statistics/v3/updates", new Notifications.NotificationListener() {
                 @Override
                 public void onNotification(String channel, Map<String, Object> data) {
                     onValues(data);
