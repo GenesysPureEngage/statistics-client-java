@@ -3,31 +3,20 @@ package com.genesys.statistics;
 import com.genesys.internal.common.ApiClient;
 import com.genesys.internal.common.ApiException;
 import com.genesys.internal.statistics.api.StatisticsApi;
-import com.genesys.internal.statistics.model.ModelApiResponse;
-import com.genesys.internal.statistics.model.PeekedStatistic;
-import com.genesys.internal.statistics.model.PeekedStatisticResponse;
-import com.genesys.internal.statistics.model.PeekedStatisticValue;
-import com.genesys.internal.statistics.model.PeekedStatisticsResponse;
-import com.genesys.internal.statistics.model.StatisticData;
-import com.genesys.internal.statistics.model.StatisticDataResponse;
-import com.genesys.internal.statistics.model.StatisticValue;
+import com.genesys.internal.statistics.model.*;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Statistics {
     private static final Logger logger = LoggerFactory.getLogger(Statistics.class);
@@ -201,27 +190,54 @@ public class Statistics {
         }
     }
     
-    private StatisticValue getValue(Map<String, Object> map) {
+    private StatisticValue getValue(Map map) {
         StatisticValue v = new StatisticValue();
-        v.setStatisticId((String)map.get("statisticId"));
-        v.setTimestamp((Long)map.get("timestamp"));
-        v.setName((String)map.get("name"));
+        v.setStatisticId(safeCast(map.get("statisticId"),String.class));
+        v.setTimestamp(safeCast(map.get("timestamp"),Long.class));
+        v.setName(safeCast(map.get("name"),String.class));
         v.setValue(map.get("value"));
-        v.setObjectId((String)map.get("objectId"));
-        v.setObjectType((String)map.get("objectType"));
+        v.setObjectId(safeCast(map.get("objectId"),String.class));
+        v.setObjectType(safeCast(map.get("objectType"),String.class));
         
         return v;
     }
 
+    private <T> T safeCast(Object argument, Class<T> clazz)
+    {
+        if(clazz.isInstance(argument))
+        {
+            return (T) argument;
+        }
+        return null;
+    }
+
+    private Map extractData(Map<String, Object> msg)
+    {
+        final Object data = msg.get("data");
+        if(data instanceof Map)
+        {
+            return (Map) data;
+        }
+        else return msg;
+    }
+
     private void onValues(Map<String, Object> msg) {
-        final String key = "serviceState";
-        if(msg.containsKey(key))  {
+        Map msgData = extractData(msg);
+        final String key = "statistics";
+        if(msgData.containsKey(key))  {
             List<StatisticValue> list = new ArrayList<>();
-            Object[] data = (Object[]) msg.get(key);
-            for(Object obj: data) {
-                Map<String, Object> map = (Map<String,Object>)obj;
-                StatisticValue v = getValue(map);
-                list.add(v);
+            Object[] statistics = safeCast(msgData.get(key), Object[].class);
+            if(statistics!=null)
+            {
+                for (Object obj : statistics)
+                {
+                    Map map =  safeCast(obj,Map.class);
+                    if(map!=null)
+                    {
+                        StatisticValue v = getValue(map);
+                        list.add(v);
+                    }
+                }
             }
             
             for(StatisticsListener l: listeners) {
@@ -240,9 +256,10 @@ public class Statistics {
     }
 
     private void onServiceChange(Map<String, Object> msg) {
+        Map msgData = extractData(msg);
         final String key = "serviceState";
-        if(msg.containsKey(key))  {
-            String value = (String)msg.get(key);
+        if(msgData.containsKey(key))  {
+            String value = String.valueOf(msgData.get(key));
             ServiceState state = ServiceState.fromString(value);
             if(state == ServiceState.Unknown) {
                 logger.warn("Unknown service state: {}", value);
