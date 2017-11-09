@@ -13,14 +13,25 @@
 
 package com.genesys.internal.statistics.api;
 
-import com.genesys.internal.common.*;
+import com.genesys.internal.common.ApiCallback;
+import com.genesys.internal.common.ApiClient;
+import com.genesys.internal.common.ApiException;
+import com.genesys.internal.common.ApiResponse;
+import com.genesys.internal.common.Configuration;
+import com.genesys.internal.common.Pair;
+import com.genesys.internal.common.ProgressRequestBody;
+import com.genesys.internal.common.ProgressResponseBody;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+
+
 import com.genesys.internal.statistics.model.ModelApiResponse;
 import com.genesys.internal.statistics.model.PeekedStatisticResponse;
 import com.genesys.internal.statistics.model.PeekedStatisticsResponse;
 import com.genesys.internal.statistics.model.StatisticDataResponse;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -600,13 +611,9 @@ public class StatisticsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (statisticIds != null)
-        {
-            localVarQueryParams.addAll(apiClient.parameterToPair("statisticIds", statisticIds));
-        }
+        localVarQueryParams.addAll(apiClient.parameterToPair("statisticIds", statisticIds));
         if (verbose != null)
-        {
-            localVarQueryParams.addAll(apiClient.parameterToPair("verbose", verbose));
-        }
+        localVarQueryParams.addAll(apiClient.parameterToPair("verbose", verbose));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
