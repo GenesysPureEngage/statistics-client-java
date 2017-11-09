@@ -1,12 +1,13 @@
 package com.genesys.statistics;
 
-import java.util.HashMap;
 import org.cometd.client.transport.LongPollingTransport;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
 
 public class ClientTransportImpl extends LongPollingTransport {
     private static final Logger logger = LoggerFactory.getLogger(ClientTransportImpl.class);

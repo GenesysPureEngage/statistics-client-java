@@ -4,8 +4,10 @@ import com.genesys.internal.common.ApiClient;
 import com.genesys.internal.common.ApiException;
 import com.genesys.internal.statistics.api.StatisticsApi;
 import com.genesys.internal.statistics.model.*;
+import com.google.common.util.concurrent.SettableFuture;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +16,8 @@ import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
+import java.util.concurrent.Future;
 
 public class Statistics {
     private static final Logger logger = LoggerFactory.getLogger(Statistics.class);
@@ -46,9 +47,9 @@ public class Statistics {
         this.notifications = notifications;
     }
     
-    public CompletableFuture<Void> initialize(String token) {
+    public Future<Void> initialize(String token) {
         
-        final CompletableFuture<Void> future = new CompletableFuture<>();
+        final SettableFuture<Void> future = SettableFuture.create();
         
         try {
             final ApiClient client = new ApiClient();
@@ -71,7 +72,7 @@ public class Statistics {
                         String value = cookie.getValue();
                         logger.debug("Session created: {}; {}", value, cookie.getPath());
 
-                        future.complete(null);
+                        future.set(null);
                     }
 
                     super.add(uri, cookie); //To change body of generated methods, choose Tools | Templates.
@@ -100,7 +101,7 @@ public class Statistics {
             notifications.initialize(serviceUrl + "/notifications", apiKey, token);
         }
         catch(Exception ex) {
-            future.completeExceptionally(ex);
+            future.setException(ex);
         }
         
         return future;
@@ -118,10 +119,10 @@ public class Statistics {
             body.put("data", data);
             body.put("operationId", operationId);
             
-            StatisticDataResponse resp = api.createSubscriptionUsingPOST(body, verbose? "INFO": "OFF");
-            Util.throwIfNotOk(resp.getStatus());
+            StatisticDataResponse response = api.createSubscriptionUsingPOST(body, verbose? "INFO": "OFF");
+            Util.throwIfNotOk(response.getStatus());
             
-            return resp.getData();
+            return response.getData();
         }
         catch(ApiException ex) {
             throw new StatisticsException("Cannot create subscription", ex);
@@ -130,8 +131,8 @@ public class Statistics {
 
     public void deleteSubscription(String id) throws StatisticsException {
         try {
-            ModelApiResponse resp = api.deleteSubscription(id);
-            Util.throwIfNotOk(resp.getStatus());            
+            ModelApiResponse response = api.deleteSubscription(id);
+            Util.throwIfNotOk(response.getStatus());
         }
         catch(ApiException ex) {
             throw new StatisticsException("Cannot delete subscription", ex);
@@ -140,10 +141,10 @@ public class Statistics {
 
     public PeekedStatisticValue getStatValue(String statisticName, String objectId, String objectType) throws StatisticsException {
         try {
-            PeekedStatisticResponse resp = api.getStatValue(statisticName, objectId, objectType);
-            Util.throwIfNotOk(resp.getStatus());
+            PeekedStatisticResponse response = api.getStatValue(statisticName, objectId, objectType);
+            Util.throwIfNotOk(response.getStatus());
             
-            PeekedStatistic data = resp.getData();
+            PeekedStatistic data = response.getData();
             return data.getStatistic();
         }
         catch(ApiException ex) {
@@ -158,10 +159,10 @@ public class Statistics {
             Map<String,Object> body = new HashMap<>();
             body.put("data", data);
             
-            PeekedStatisticsResponse resp = api.getStatValues(body);
-            Util.throwIfNotOk(resp.getStatus());
+            PeekedStatisticsResponse response = api.getStatValues(body);
+            Util.throwIfNotOk(response.getStatus());
             
-            return resp.getData().getStatistics();
+            return response.getData().getStatistics();
         }
         catch(ApiException ex) {
             throw new StatisticsException("Cannot get statistics values", ex);
@@ -178,8 +179,17 @@ public class Statistics {
 
     public List<StatisticValue> peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException {
         try {
-            String list = Arrays.stream(statisticIds).collect(Collectors.joining(","));
-            StatisticDataResponse resp = api.peekSubscriptionStats(subscriptionId, list, verbose? "INFO": "OFF");
+            final String[] array = StringUtils.stripAll(statisticIds);
+            final ArrayList<String> ids = new ArrayList<>(array.length);
+            for(String str: array)
+            {
+                if(StringUtils.isNotBlank(str))
+                {
+                    ids.add(str);
+                }
+            }
+            final String statIds = StringUtils.join(ids, ',');
+            StatisticDataResponse resp = api.peekSubscriptionStats(subscriptionId, statIds, verbose? "INFO": "OFF");
             Util.throwIfNotOk(resp.getStatus());
             
             StatisticData data = resp.getData();
@@ -191,15 +201,15 @@ public class Statistics {
     }
     
     private StatisticValue getValue(Map map) {
-        StatisticValue v = new StatisticValue();
-        v.setStatisticId(safeCast(map.get("statisticId"),String.class));
-        v.setTimestamp(safeCast(map.get("timestamp"),Long.class));
-        v.setName(safeCast(map.get("name"),String.class));
-        v.setValue(map.get("value"));
-        v.setObjectId(safeCast(map.get("objectId"),String.class));
-        v.setObjectType(safeCast(map.get("objectType"),String.class));
+        StatisticValue value = new StatisticValue();
+        value.setStatisticId(safeCast(map.get("statisticId"),String.class));
+        value.setTimestamp(safeCast(map.get("timestamp"),Long.class));
+        value.setName(safeCast(map.get("name"),String.class));
+        value.setValue(map.get("value"));
+        value.setObjectId(safeCast(map.get("objectId"),String.class));
+        value.setObjectType(safeCast(map.get("objectType"),String.class));
         
-        return v;
+        return value;
     }
 
     private <T> T safeCast(Object argument, Class<T> clazz)
@@ -234,18 +244,18 @@ public class Statistics {
                     Map map =  safeCast(obj,Map.class);
                     if(map!=null)
                     {
-                        StatisticValue v = getValue(map);
-                        list.add(v);
+                        StatisticValue value = getValue(map);
+                        list.add(value);
                     }
                 }
             }
             
-            for(StatisticsListener l: listeners) {
+            for(StatisticsListener listener: listeners) {
                 try {
-                    l.onValues(list);
+                    listener.onValues(list);
                 }
                 catch(Exception ex) {
-                    logger.error("", ex);
+                    logger.error("Error notifying listener", ex);
                 }
             }
         }
@@ -265,9 +275,9 @@ public class Statistics {
                 logger.warn("Unknown service state: {}", value);
             }
             
-            for(StatisticsListener l: listeners) {
+            for(StatisticsListener listener: listeners) {
                 try {
-                    l.onServiceChange(state);
+                    listener.onServiceChange(state);
                 }
                 catch(Exception ex) {
                     logger.error("", ex);
