@@ -177,29 +177,41 @@ public class Statistics {
         return peekSubscriptionStats(subscriptionId, statisticIds, true);
     }
 
-    public List<StatisticValue> peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException {
-        try {
-            final String[] array = StringUtils.stripAll(statisticIds);
-            final ArrayList<String> ids = new ArrayList<>(array.length);
-            for(String str: array)
-            {
-                if(StringUtils.isNotBlank(str))
-                {
-                    ids.add(str);
-                }
-            }
-            final String statIds = StringUtils.join(ids, ',');
-            StatisticDataResponse resp = api.peekSubscriptionStats(subscriptionId, statIds, verbose? "INFO": "OFF");
+    public List<StatisticValue> peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException
+    {
+        try
+        {
+            final String statIds = formStatIds(statisticIds);
+            StatisticDataResponse resp = api.peekSubscriptionStats(subscriptionId, statIds, verbose ? "INFO" : "OFF");
             Util.throwIfNotOk(resp.getStatus());
-            
+
             StatisticData data = resp.getData();
             return data.getStatistics();
         }
-        catch(ApiException ex) {
+        catch (ApiException ex)
+        {
             throw new StatisticsException("Cannot peek subscription statistics", ex);
         }
     }
-    
+
+    private String formStatIds(String[] statisticIds)
+    {
+        if (statisticIds == null)
+        {
+            return null;
+        }
+        final ArrayList<String> ids = new ArrayList<>(statisticIds.length);
+        for (String statId : statisticIds)
+        {
+            String stripped = StringUtils.stripToNull(statId);
+            if (StringUtils.isNotBlank(stripped))
+            {
+                ids.add(stripped);
+            }
+        }
+        return StringUtils.stripToNull(StringUtils.join(ids, ','));
+    }
+
     private StatisticValue getValue(Map map) {
         StatisticValue value = new StatisticValue();
         value.setStatisticId(safeCast(map.get("statisticId"),String.class));
