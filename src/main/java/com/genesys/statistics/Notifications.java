@@ -82,14 +82,14 @@ public class Notifications
 		}
 	}
 
-	public void initialize(String endpoint, final String apiKey, final String token) throws StatisticsException
+	public void initialize(String endpoint, final String apiKey, final String token, final Map<String,Object> options) throws StatisticsException
 	{
 
 		try
 		{
 			httpClient = new HttpClient(new SslContextFactory());
 			httpClient.start();
-			client = new BayeuxClient(endpoint, new ClientTransportImpl(apiKey, token, httpClient)
+			client = new BayeuxClient(endpoint, new ClientTransportImpl(apiKey, token, httpClient, options)
 			{
 				@Override
 				protected CookieStore getCookieStore()
@@ -98,27 +98,20 @@ public class Notifications
 				}
 			});
 
-			initialize(client);
+			logger.debug("Starting cometd handshake...");
+			client.handshake(new ClientSessionChannel.MessageListener()
+			{
+				@Override
+				public void onMessage(ClientSessionChannel channel, Message message)
+				{
+					onHandshake(message);
+				}
+			});
 		}
 		catch (Exception ex)
 		{
 			throw new StatisticsException("Initialization failed.", ex);
 		}
-	}
-
-	void initialize(BayeuxClient client)
-	{
-		this.client = client;
-
-		logger.debug("Starting cometd handshake...");
-		client.handshake(new ClientSessionChannel.MessageListener()
-		{
-			@Override
-			public void onMessage(ClientSessionChannel channel, Message message)
-			{
-				onHandshake(message);
-			}
-		});
 	}
 
 	public void disconnect() throws StatisticsException

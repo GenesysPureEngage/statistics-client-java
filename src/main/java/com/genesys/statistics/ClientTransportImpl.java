@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ClientTransportImpl extends LongPollingTransport
 {
@@ -17,10 +18,14 @@ public class ClientTransportImpl extends LongPollingTransport
 	private final String apiKey;
 	private final String token;
 
-	public ClientTransportImpl(String apiKey, String token, HttpClient httpClient)
+	public ClientTransportImpl(final String apiKey, final String token, final HttpClient httpClient)
 	{
-		super(new HashMap<String, Object>(), httpClient);
+		this(apiKey, token, httpClient, null);
+	}
 
+	public ClientTransportImpl(final String apiKey, final String token, final HttpClient httpClient, final Map<String, Object> options)
+	{
+		super(options != null ? new HashMap<>(options) : new HashMap<String, Object>(), httpClient);
 		this.apiKey = apiKey;
 		this.token = token;
 	}

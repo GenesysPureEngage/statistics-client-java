@@ -24,22 +24,29 @@ public class Statistics
 	static final String SESSION_COOKIE = "STATISTICS_SESSIONID";
 	private static final Logger logger = LoggerFactory.getLogger(Statistics.class);
 	final Collection<StatisticsListener> listeners = new ConcurrentLinkedQueue<>();
-	private String apiKey;
-	private String serviceUrl;
-	private StatisticsApi api;
-	private Notifications notifications;
+	private final String apiKey;
+	private final String serviceUrl;
+	private final StatisticsApi api;
+	private final Notifications notifications;
+	private final Map<String, Object> notificationOptions;
 
-	public Statistics(String apiKey, String baseUrl)
+	public Statistics(final String apiKey, final String baseUrl)
 	{
-		this(apiKey, baseUrl, new StatisticsApi(), new Notifications());
+		this(apiKey, baseUrl, new StatisticsApi(), new Notifications(), null);
 	}
 
-	Statistics(String apiKey, String baseUrl, StatisticsApi api, Notifications notifications)
+	public Statistics(final String apiKey, final String baseUrl, final Map<String, Object> notificationOptions)
+	{
+		this(apiKey, baseUrl, new StatisticsApi(), new Notifications(), notificationOptions);
+	}
+
+	private Statistics(final String apiKey, final String baseUrl, final StatisticsApi api, final Notifications notifications, final Map<String, Object> options)
 	{
 		this.apiKey = apiKey;
 		this.serviceUrl = String.format("%s/statistics/v3", baseUrl);
 		this.api = api;
 		this.notifications = notifications;
+		this.notificationOptions = options == null ? new HashMap<String, Object>(1) : new HashMap<String, Object>(options);
 	}
 
 	public Future<Void> initialize(String token)
@@ -104,7 +111,7 @@ public class Statistics
 					onValues(data);
 				}
 			});
-			notifications.initialize(serviceUrl + "/notifications", apiKey, token);
+			notifications.initialize(serviceUrl + "/notifications", apiKey, token, notificationOptions);
 		}
 		catch (Exception ex)
 		{
