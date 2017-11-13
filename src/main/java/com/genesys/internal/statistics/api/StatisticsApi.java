@@ -68,7 +68,7 @@ public class StatisticsApi {
      */
     public com.squareup.okhttp.Call createSubscriptionUsingPOSTCall(Object statistics, String verbose, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = statistics;
-        
+
         // create path and map variables
         String localVarPath = "/subscriptions";
 
@@ -108,7 +108,7 @@ public class StatisticsApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call createSubscriptionUsingPOSTValidateBeforeCall(Object statistics, String verbose, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -117,14 +117,10 @@ public class StatisticsApi {
             throw new ApiException("Missing the required parameter 'statistics' when calling createSubscriptionUsingPOST(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = createSubscriptionUsingPOSTCall(statistics, verbose, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
@@ -199,7 +195,7 @@ public class StatisticsApi {
      */
     public com.squareup.okhttp.Call deleteSubscriptionCall(String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/subscriptions/{id}"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
@@ -238,7 +234,7 @@ public class StatisticsApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call deleteSubscriptionValidateBeforeCall(String id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -247,14 +243,10 @@ public class StatisticsApi {
             throw new ApiException("Missing the required parameter 'id' when calling deleteSubscription(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = deleteSubscriptionCall(id, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
@@ -328,7 +320,7 @@ public class StatisticsApi {
      */
     public com.squareup.okhttp.Call getStatValueCall(String statisticName, String objectId, String objectType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/statistic-values/{statisticName}"
             .replaceAll("\\{" + "statisticName" + "\\}", apiClient.escapeString(statisticName.toString()));
@@ -371,7 +363,7 @@ public class StatisticsApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getStatValueValidateBeforeCall(String statisticName, String objectId, String objectType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -390,14 +382,10 @@ public class StatisticsApi {
             throw new ApiException("Missing the required parameter 'objectType' when calling getStatValue(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = getStatValueCall(statisticName, objectId, objectType, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
@@ -475,7 +463,7 @@ public class StatisticsApi {
      */
     public com.squareup.okhttp.Call getStatValuesCall(Object statistics, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = statistics;
-        
+
         // create path and map variables
         String localVarPath = "/operations/get-statistic-ex";
 
@@ -513,7 +501,7 @@ public class StatisticsApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getStatValuesValidateBeforeCall(Object statistics, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -522,14 +510,10 @@ public class StatisticsApi {
             throw new ApiException("Missing the required parameter 'statistics' when calling getStatValues(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = getStatValuesCall(statistics, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
@@ -603,7 +587,7 @@ public class StatisticsApi {
      */
     public com.squareup.okhttp.Call peekSubscriptionStatsCall(String id, String statisticIds, String verbose, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/subscriptions/{id}/statistic-values"
             .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
@@ -646,7 +630,7 @@ public class StatisticsApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call peekSubscriptionStatsValidateBeforeCall(String id, String statisticIds, String verbose, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -655,14 +639,10 @@ public class StatisticsApi {
             throw new ApiException("Missing the required parameter 'id' when calling peekSubscriptionStats(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = peekSubscriptionStatsCall(id, statisticIds, verbose, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**
