@@ -230,7 +230,7 @@ public class Statistics
 		return StringUtils.stripToNull(StringUtils.join(ids, ','));
 	}
 
-	private StatisticValue getValue(Map map)
+	private StatisticValueNotification getValueNotification(Map map)
 	{
 		StatisticValue value = new StatisticValue();
 		value.setStatisticId(safeCast(map.get("statisticId"), String.class));
@@ -239,8 +239,8 @@ public class Statistics
 		value.setValue(map.get("value"));
 		value.setObjectId(safeCast(map.get("objectId"), String.class));
 		value.setObjectType(safeCast(map.get("objectType"), String.class));
-
-		return value;
+		final String subscriptionId = safeCast(map.get("subscriptionId"), String.class);
+		return new StatisticValueNotification(subscriptionId, value);
 	}
 
 	private <T> T safeCast(Object argument, Class<T> clazz)
@@ -269,7 +269,7 @@ public class Statistics
 		final String key = "statistics";
 		if (msgData.containsKey(key))
 		{
-			List<StatisticValue> list = new ArrayList<>();
+			List<StatisticValueNotification> list = new ArrayList<>();
 			Object[] statistics = safeCast(msgData.get(key), Object[].class);
 			if (statistics != null)
 			{
@@ -278,7 +278,7 @@ public class Statistics
 					Map map = safeCast(obj, Map.class);
 					if (map != null)
 					{
-						StatisticValue value = getValue(map);
+						StatisticValueNotification value = getValueNotification(map);
 						list.add(value);
 					}
 				}
@@ -350,10 +350,10 @@ public class Statistics
 		notifications.disconnect();
 	}
 
-	public static interface StatisticsListener
+	public interface StatisticsListener
 	{
 		void onServiceChange(ServiceState state);
 
-		void onValues(Collection<StatisticValue> list);
+		void onValues(Collection<StatisticValueNotification> list);
 	}
 }
