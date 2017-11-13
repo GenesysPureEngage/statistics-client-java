@@ -121,12 +121,12 @@ public class Statistics
 		return future;
 	}
 
-	public StatisticData createSubscription(String operationId, StatisticDesc[] descriptors) throws StatisticsException
+	public StatisticDataResponse createSubscription(String operationId, StatisticDesc[] descriptors) throws StatisticsException
 	{
 		return createSubscription(operationId, descriptors, true);
 	}
 
-	public StatisticData createSubscription(String operationId, StatisticDesc[] descriptors, boolean verbose) throws StatisticsException
+	public StatisticDataResponse createSubscription(String operationId, StatisticDesc[] descriptors, boolean verbose) throws StatisticsException
 	{
 		try
 		{
@@ -136,10 +136,7 @@ public class Statistics
 			body.put("data", data);
 			body.put("operationId", operationId);
 
-			StatisticDataResponse response = api.createSubscriptionUsingPOST(body, verbose ? "INFO" : "OFF");
-			Util.throwIfNotOk(response.getStatus());
-
-			return response.getData();
+			return api.createSubscriptionUsingPOST(body, verbose ? "INFO" : "OFF");
 		}
 		catch (ApiException ex)
 		{
@@ -147,12 +144,11 @@ public class Statistics
 		}
 	}
 
-	public void deleteSubscription(String id) throws StatisticsException
+	public ModelApiResponse deleteSubscription(String id) throws StatisticsException
 	{
 		try
 		{
-			ModelApiResponse response = api.deleteSubscription(id);
-			Util.throwIfNotOk(response.getStatus());
+			return api.deleteSubscription(id);
 		}
 		catch (ApiException ex)
 		{
@@ -176,7 +172,7 @@ public class Statistics
 		}
 	}
 
-	public List<PeekedStatisticValue> getStatValues(StatisticInfo[] infos) throws StatisticsException
+	public PeekedStatisticsResponse getStatValues(StatisticInfo[] infos) throws StatisticsException
 	{
 		try
 		{
@@ -185,10 +181,7 @@ public class Statistics
 			Map<String, Object> body = new HashMap<>();
 			body.put("data", data);
 
-			PeekedStatisticsResponse response = api.getStatValues(body);
-			Util.throwIfNotOk(response.getStatus());
-
-			return response.getData().getStatistics();
+			return api.getStatValues(body);
 		}
 		catch (ApiException ex)
 		{
@@ -196,26 +189,22 @@ public class Statistics
 		}
 	}
 
-	public List<StatisticValue> peekSubscriptionStats(String subscriptionId) throws StatisticsException
+	public StatisticDataResponse peekSubscriptionStats(String subscriptionId) throws StatisticsException
 	{
 		return peekSubscriptionStats(subscriptionId, new String[] {});
 	}
 
-	public List<StatisticValue> peekSubscriptionStats(String subscriptionId, String[] statisticIds) throws StatisticsException
+	public StatisticDataResponse peekSubscriptionStats(String subscriptionId, String[] statisticIds) throws StatisticsException
 	{
 		return peekSubscriptionStats(subscriptionId, statisticIds, true);
 	}
 
-	public List<StatisticValue> peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException
+	public StatisticDataResponse peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException
 	{
 		try
 		{
 			final String statIds = formStatIds(statisticIds);
-			StatisticDataResponse resp = api.peekSubscriptionStats(subscriptionId, statIds, verbose ? "INFO" : "OFF");
-			Util.throwIfNotOk(resp.getStatus());
-
-			StatisticData data = resp.getData();
-			return data.getStatistics();
+			return api.peekSubscriptionStats(subscriptionId, statIds, verbose ? "INFO" : "OFF");
 		}
 		catch (ApiException ex)
 		{

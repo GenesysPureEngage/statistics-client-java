@@ -82,7 +82,7 @@ public class Notifications
 		}
 	}
 
-	public void initialize(String endpoint, final String apiKey, final String token, final Map<String,Object> options) throws StatisticsException
+	public void initialize(String endpoint, final String apiKey, final String token, final Map<String, Object> options) throws StatisticsException
 	{
 
 		try
