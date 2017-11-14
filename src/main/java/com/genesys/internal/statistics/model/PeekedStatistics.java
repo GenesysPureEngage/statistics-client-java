@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * PeekedStatistics
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-14T21:04:52.705Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-14T22:46:43.654Z")
 public class PeekedStatistics {
   @SerializedName("statistics")
   private List<PeekedStatisticValue> statistics = new ArrayList<PeekedStatisticValue>();
