@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * PeekedStatisticsResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-14T22:46:43.654Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T15:25:20.025Z")
 public class PeekedStatisticsResponse {
   @SerializedName("data")
   private PeekedStatistics data = null;
