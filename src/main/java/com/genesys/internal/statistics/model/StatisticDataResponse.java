@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * StatisticDataResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-16T11:12:49.366Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-16T12:04:42.721Z")
 public class StatisticDataResponse {
   @SerializedName("data")
   private StatisticData data = null;
