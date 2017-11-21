@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * StatisticData
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T19:04:58.791Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T22:05:04.928Z")
 public class StatisticData {
   @SerializedName("operationId")
   private String operationId = null;
