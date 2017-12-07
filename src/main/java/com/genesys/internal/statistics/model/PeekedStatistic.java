@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * PeekedStatistic
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-06T15:10:31.708Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T16:10:27.255Z")
 public class PeekedStatistic {
   @SerializedName("statistic")
   private PeekedStatisticValue statistic = null;
