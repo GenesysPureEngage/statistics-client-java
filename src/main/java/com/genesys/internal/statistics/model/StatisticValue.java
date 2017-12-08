@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * StatisticValue
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-08T10:29:21.373Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-08T20:05:05.838Z")
 public class StatisticValue {
   @SerializedName("name")
   private String name = null;
