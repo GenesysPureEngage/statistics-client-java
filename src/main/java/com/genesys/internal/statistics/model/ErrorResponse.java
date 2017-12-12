@@ -14,7 +14,7 @@
 package com.genesys.internal.statistics.model;
 
 import java.util.Objects;
-import com.genesys.internal.statistics.model.PeekedStatisticValue;
+import com.genesys.internal.statistics.model.ResponseStatus;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,38 +23,31 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * PeekedStatistics
+ * ErrorResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-12T16:39:02.387Z")
-public class PeekedStatistics {
-  @SerializedName("statistics")
-  private List<PeekedStatisticValue> statistics = new ArrayList<PeekedStatisticValue>();
+public class ErrorResponse {
+  @SerializedName("status")
+  private ResponseStatus status = null;
 
-  public PeekedStatistics statistics(List<PeekedStatisticValue> statistics) {
-    this.statistics = statistics;
-    return this;
-  }
-
-  public PeekedStatistics addStatisticsItem(PeekedStatisticValue statisticsItem) {
-    this.statistics.add(statisticsItem);
+  public ErrorResponse status(ResponseStatus status) {
+    this.status = status;
     return this;
   }
 
    /**
-   * Get statistics
-   * @return statistics
+   * Get status
+   * @return status
   **/
   @ApiModelProperty(required = true, value = "")
-  public List<PeekedStatisticValue> getStatistics() {
-    return statistics;
+  public ResponseStatus getStatus() {
+    return status;
   }
 
-  public void setStatistics(List<PeekedStatisticValue> statistics) {
-    this.statistics = statistics;
+  public void setStatus(ResponseStatus status) {
+    this.status = status;
   }
 
 
@@ -66,22 +59,22 @@ public class PeekedStatistics {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PeekedStatistics peekedStatistics = (PeekedStatistics) o;
-    return Objects.equals(this.statistics, peekedStatistics.statistics);
+    ErrorResponse errorResponse = (ErrorResponse) o;
+    return Objects.equals(this.status, errorResponse.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(statistics);
+    return Objects.hash(status);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PeekedStatistics {\n");
+    sb.append("class ErrorResponse {\n");
     
-    sb.append("    statistics: ").append(toIndentedString(statistics)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }
