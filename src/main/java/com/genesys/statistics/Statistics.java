@@ -7,10 +7,6 @@ import com.genesys.internal.statistics.model.*;
 import com.google.common.util.concurrent.SettableFuture;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
@@ -18,6 +14,9 @@ import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Future;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Statistics
 {
@@ -49,6 +48,12 @@ public class Statistics
 		this.notificationOptions = options == null ? new HashMap<String, Object>(1) : new HashMap<String, Object>(options);
 	}
 
+        /**
+         *  Initialize client
+         * 
+         * @param token Bearer Authorization token
+         * @return 
+         */
 	public Future<Void> initialize(String token)
 	{
 
@@ -121,11 +126,28 @@ public class Statistics
 		return future;
 	}
 
+        /**
+        *  Open a subscription for the specified set of statistics (verbose is true by default)
+        * 
+        * @param operationId
+        * @param descriptors
+        * @return
+        * @throws StatisticsException 
+        */
 	public StatisticDataResponse createSubscription(String operationId, StatisticDesc[] descriptors) throws StatisticsException
 	{
 		return createSubscription(operationId, descriptors, true);
 	}
 
+        /**
+        *  Open a subscription for the specified set of statistics.
+        * 
+        * @param operationId
+        * @param descriptors
+        * @param verbose
+        * @return
+        * @throws StatisticsException 
+        */
 	public StatisticDataResponse createSubscription(String operationId, StatisticDesc[] descriptors, boolean verbose) throws StatisticsException
 	{
 		try
@@ -143,7 +165,14 @@ public class Statistics
 			throw new StatisticsException("Cannot create subscription", ex);
 		}
 	}
-
+        
+        /**
+         *  Delete the specified subscription by closing all its statistics.
+         * 
+         * @param id
+         * @return
+         * @throws StatisticsException 
+         */
 	public ModelApiResponse deleteSubscription(String id) throws StatisticsException
 	{
 		try
@@ -156,6 +185,15 @@ public class Statistics
 		}
 	}
 
+        /**
+        *  Get the current value of a statistic from Stat Server.
+        * 
+        * @param statisticName The name of the pre-configured statistic to retrieve.
+        * @param objectId The ID of the object.
+        * @param objectType The type of object the statistic is for.
+        * @return
+        * @throws StatisticsException 
+        */
 	public PeekedStatisticValue getStatValue(String statisticName, String objectId, String objectType) throws StatisticsException
 	{
 		try
@@ -172,6 +210,13 @@ public class Statistics
 		}
 	}
 
+        /**
+        *  Get the current value of predefined statistics from Stat Server without a subscription.
+        * 
+        * @param infos The set of statistics you want to get the values for from Stat Server.
+        * @return
+        * @throws StatisticsException 
+        */
 	public PeekedStatisticsResponse getStatValues(StatisticInfo[] infos) throws StatisticsException
 	{
 		try
@@ -189,16 +234,40 @@ public class Statistics
 		}
 	}
 
+        /**
+        *  Get the values of a set of statistics that was opened with a subscription.
+        * 
+        * @param subscriptionId
+        * @return
+        * @throws StatisticsException 
+        */ 
 	public StatisticDataResponse peekSubscriptionStats(String subscriptionId) throws StatisticsException
 	{
 		return peekSubscriptionStats(subscriptionId, new String[] {});
 	}
 
+        /**
+        *  Get the values of a set of statistics that was opened with a subscription (verbose is true by default)
+        * 
+        * @param subscriptionId
+        * @param statisticIds  list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
+        * @return
+        * @throws StatisticsException 
+        */
 	public StatisticDataResponse peekSubscriptionStats(String subscriptionId, String[] statisticIds) throws StatisticsException
 	{
 		return peekSubscriptionStats(subscriptionId, statisticIds, true);
 	}
 
+        /**
+        *  Get the values of a set of statistics that was opened with a subscription.
+        * 
+        * @param subscriptionId
+        * @param statisticIds  list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
+        * @param verbose
+        * @return
+        * @throws StatisticsException 
+        */
 	public StatisticDataResponse peekSubscriptionStats(String subscriptionId, String[] statisticIds, boolean verbose) throws StatisticsException
 	{
 		try
@@ -335,11 +404,21 @@ public class Statistics
 		}
 	}
 
+        /**
+        *  Add events listener
+        * 
+        * @param listener 
+        */
 	public void addListener(StatisticsListener listener)
 	{
 		listeners.add(listener);
 	}
 
+        /**
+         *  Remove events listener
+         * 
+         * @param listener 
+         */
 	public void removeListener(StatisticsListener listener)
 	{
 		listeners.remove(listener);
