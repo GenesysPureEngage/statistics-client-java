@@ -158,7 +158,7 @@ public class Statistics
 			body.put("data", data);
 			body.put("operationId", operationId);
 
-			return api.createSubscriptionUsingPOST(body, verbose ? "INFO" : "OFF");
+			return api.createSubscription(body, verbose ? "INFO" : "OFF");
 		}
 		catch (ApiException ex)
 		{
