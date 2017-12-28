@@ -13,7 +13,7 @@
 
 package com.genesys.internal.common;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-28T10:24:40.276Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-28T18:27:21.167Z")
 public class Configuration {
     private static ApiClient defaultApiClient = new ApiClient();
 
