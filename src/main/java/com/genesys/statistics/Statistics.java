@@ -49,9 +49,9 @@ public class Statistics
 	}
 
         /**
-         *  Initialize client
+         *  Initialize the Statistics client library.
          * 
-         * @param token Bearer Authorization token
+         * @param token The authorization token you received during authentication by following the Authorization Code Grant flow.
          * @return 
          */
 	public Future<Void> initialize(String token)
@@ -127,10 +127,10 @@ public class Statistics
 	}
 
         /**
-        *  Open a subscription for the specified set of statistics (verbose is true by default)
+        *  Open a subscription for the specified set of statistics. Verbose is set to `true` by default.
         * 
-        * @param operationId
-        * @param descriptors
+        * @param operationId A unique string (we recommend using a UUID/GUID) that the Statistics API uses as the subscriptionId.
+        * @param descriptors Definitions of the statistics to be monitored.
         * @return
         * @throws StatisticsException 
         */
@@ -142,9 +142,9 @@ public class Statistics
         /**
         *  Open a subscription for the specified set of statistics.
         * 
-        * @param operationId
-        * @param descriptors
-        * @param verbose
+        * @param operationId A unique string (we recommend using a UUID/GUID) that the Statistics API uses as the subscriptionId.
+        * @param descriptors Definitions of the statistics to be monitored.
+        * @param verbose Specifies whether the Statistics API should return additional information about opened statistics in the response.
         * @return
         * @throws StatisticsException 
         */
@@ -169,7 +169,7 @@ public class Statistics
         /**
          *  Delete the specified subscription by closing all its statistics.
          * 
-         * @param id
+         * @param id The ID of the subscription to delete.
          * @return
          * @throws StatisticsException 
          */
@@ -235,9 +235,9 @@ public class Statistics
 	}
 
         /**
-        *  Get the values of a set of statistics that was opened with a subscription.
+        *  Get the value of a set of statistics that was opened with a subscription.
         * 
-        * @param subscriptionId
+        * @param subscriptionId The ID of the subscription.
         * @return
         * @throws StatisticsException 
         */ 
@@ -249,8 +249,8 @@ public class Statistics
         /**
         *  Get the values of a set of statistics that was opened with a subscription (verbose is true by default)
         * 
-        * @param subscriptionId
-        * @param statisticIds  list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
+        * @param subscriptionId The ID of the subscription.
+        * @param statisticIds A list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
         * @return
         * @throws StatisticsException 
         */
@@ -263,8 +263,8 @@ public class Statistics
         *  Get the values of a set of statistics that was opened with a subscription.
         * 
         * @param subscriptionId
-        * @param statisticIds  list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
-        * @param verbose
+        * @param statisticIds A list of statistic IDs that belong to the specified subscription. If omitted, the Statistics API returns the current values of all statistics opened within the subscription. If specified, the Statistics API returns values for the statistics with the specified IDs.
+        * @param verbose Specifies whether the Statistics API should return additional information about opened statistics in the response. 
         * @return
         * @throws StatisticsException 
         */
@@ -405,7 +405,7 @@ public class Statistics
 	}
 
         /**
-        *  Add events listener
+        *  Add a listener for the ServiceState (`onServiceChange`) and StatisticValueNotification (`onValues`) event notifications.
         * 
         * @param listener 
         */
@@ -415,7 +415,7 @@ public class Statistics
 	}
 
         /**
-         *  Remove events listener
+         *  Remove the events listener.
          * 
          * @param listener 
          */
