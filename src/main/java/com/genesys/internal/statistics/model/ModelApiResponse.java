@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-28T14:18:03.512Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-28T21:05:03.211Z")
 public class ModelApiResponse {
   @SerializedName("data")
   private Object data = null;
