@@ -18,7 +18,7 @@ import com.genesys.internal.common.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-12T18:05:04.266Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:07:04.391Z")
 public class OAuth implements Authentication {
   private String accessToken;
 
