@@ -10,6 +10,7 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
+import java.net.Proxy;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -28,6 +29,7 @@ public class Statistics
 	private final StatisticsApi api;
 	private final Notifications notifications;
 	private final Map<String, Object> notificationOptions;
+	private Proxy proxy;
 
 	public Statistics(final String apiKey, final String baseUrl)
 	{
@@ -44,8 +46,20 @@ public class Statistics
 		this.apiKey = apiKey;
 		this.serviceUrl = String.format("%s/statistics/v3", baseUrl);
 		this.api = api;
+		this.api.getApiClient().setBasePath(serviceUrl);
 		this.notifications = notifications;
 		this.notificationOptions = options == null ? new HashMap<String, Object>(1) : new HashMap<String, Object>(options);
+		api.getApiClient().addDefaultHeader("x-api-key", apiKey);
+	}
+	
+	public Proxy getProxy() {
+		return proxy;
+	}
+	
+	public void setProxy(Proxy proxy) {
+		this.proxy = proxy;
+		api.getApiClient().getHttpClient().setProxy(proxy);
+		notifications.setProxy(proxy);
 	}
 
         /**
@@ -56,12 +70,13 @@ public class Statistics
          */
 	public Future<Void> initialize(String token)
 	{
-
+		this.api.getApiClient().addDefaultHeader("Authorization", String.format("Bearer %s", token));
 		final SettableFuture<Void> future = SettableFuture.create();
 
 		try
 		{
 			final ApiClient client = new ApiClient();
+			client.getHttpClient().setProxy(proxy);
 			List<Interceptor> interceptors = client.getHttpClient().interceptors();
 			interceptors.add(new TraceInterceptor());
 

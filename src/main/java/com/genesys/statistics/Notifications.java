@@ -4,12 +4,15 @@ import org.cometd.bayeux.Message;
 import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.client.BayeuxClient;
 import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.HttpProxy;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.CookieManager;
 import java.net.CookieStore;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,6 +26,7 @@ public class Notifications
 	private BayeuxClient client;
 	private HttpClient httpClient;
 	private CookieStore cookieStore = new CookieManager().getCookieStore();
+	private Proxy proxy;
 
 	public CookieStore getCookieStore()
 	{
@@ -32,6 +36,14 @@ public class Notifications
 	public void setCookieStore(CookieStore cookieStore)
 	{
 		this.cookieStore = cookieStore;
+	}
+
+	public Proxy getProxy() {
+		return this.proxy;
+	}
+
+	public void setProxy(Proxy proxy) {
+		this.proxy = proxy;
 	}
 
 	private void onHandshake(Message msg)
@@ -88,6 +100,12 @@ public class Notifications
 		try
 		{
 			httpClient = new HttpClient(new SslContextFactory());
+			if (proxy != null) {
+				InetSocketAddress address = (InetSocketAddress) proxy.address();
+				HttpProxy httpproxy = new HttpProxy(address.getHostName(), address.getPort());
+				httpClient.getProxyConfiguration().getProxies().add(httpproxy);
+			}
+
 			httpClient.start();
 			client = new BayeuxClient(endpoint, new ClientTransportImpl(apiKey, token, httpClient, options)
 			{
