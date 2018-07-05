@@ -230,6 +230,16 @@ public class ApiClient {
         return this;
     }
 
+    public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+        this.json.setOffsetDateTimeFormat(dateFormat);
+        return this;
+    }
+
+    public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
+        this.json.setLocalDateFormat(dateFormat);
+        return this;
+    }
+
     public ApiClient setLenientOnJson(boolean lenientOnJson) {
         this.json.setLenientOnJson(lenientOnJson);
         return this;
@@ -480,7 +490,7 @@ public class ApiClient {
     public String parameterToString(Object param) {
         if (param == null) {
             return "";
-        } else if (param instanceof Date ) {
+        } else if (param instanceof Date || param instanceof OffsetDateTime || param instanceof LocalDate) {
             //Serialize to json string and remove the " enclosing characters
             String jsonStr = json.serialize(param);
             return jsonStr.substring(1, jsonStr.length() - 1);
