@@ -1,35 +1,22 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'signing'
-apply plugin: 'maven-publish'
-
-def versionPropsFile = file('version.properties')
-def versionBuild
-
-/*Setting default value for versionBuild which is the last incremented value stored in the file */
-if (versionPropsFile.canRead()) {
-    def Properties versionProps = new Properties()
-    versionProps.load(new FileInputStream(versionPropsFile))
-    versionBuild = versionProps['VERSION_BUILD'].toInteger()
-} else {
-    throw new GradleException("Could not read version.properties!")
-}
-
-group = 'com.genesys'
-version = '1.0.' + versionBuild
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_8
-
 buildscript {
     repositories {
         jcenter()
     }
-    dependencies {
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
-    }
 }
 
-apply plugin: 'io.codearte.nexus-staging'
+plugins {
+    id 'java'
+    id 'maven'
+    id 'signing'
+    id 'maven-publish'
+
+    id 'io.codearte.nexus-staging' version '0.12.0'
+}
+
+group = 'com.genesys'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     jcenter()
@@ -61,19 +48,15 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.10.0'
 }
 
-task incrementBuildNumber {
+task incrementVersion {
     doLast {
-        if (versionPropsFile.canRead()) {
-            def Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionPropsFile))
-            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
-            versionProps['VERSION_BUILD'] = versionBuild.toString()
-            versionProps.store(versionPropsFile.newWriter(), null)
-        } else {
-            throw new GradleException("Could not read version.properties!")
-        }
-
-        println 'Version build updated to: ' + versionBuild
+        String[] semVer = version.split(/\./)
+        String major = semVer[0]
+        String minor = semVer[1]
+        String patch = semVer[2]
+        File propertiesFile = file("gradle.properties")
+        String updatedFile = propertiesFile.text.replaceFirst(/version\s*=\s*${version}/, "version=${major}.${minor}.${patch.toInteger() + 1}")
+        propertiesFile.setText(updatedFile)
     }
 }
 
