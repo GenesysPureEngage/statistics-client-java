@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * ErrorResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-01-05T01:35:38.828Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-01-11T03:30:51.543Z")
 public class ErrorResponse {
   @SerializedName("status")
   private ResponseStatus status = null;
