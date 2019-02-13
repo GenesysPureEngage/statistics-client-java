@@ -131,14 +131,19 @@ public class Notifications
 			throw new StatisticsException("Initialization failed.", ex);
 		}
 	}
+    
+    public void disconnect() throws StatisticsException
+	{
+		disconnect(10000); // 10 second timeout by default
+	}
 
-	public void disconnect() throws StatisticsException
+	public void disconnect(long disconnectRequestTimeout) throws StatisticsException
 	{
 		try
 		{
 			if (client != null)
 			{
-				client.disconnect();
+				client.disconnect(disconnectRequestTimeout);
 			}
 			if (httpClient != null)
 			{

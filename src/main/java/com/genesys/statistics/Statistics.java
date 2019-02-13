@@ -443,6 +443,11 @@ public class Statistics
 	{
 		notifications.disconnect();
 	}
+    
+    public void destroy(long disconnectRequestTimeout) throws StatisticsException
+	{
+		notifications.disconnect(disconnectRequestTimeout);
+	}
 
 	public interface StatisticsListener
 	{
