@@ -131,8 +131,8 @@ public class Notifications
 			throw new StatisticsException("Initialization failed.", ex);
 		}
 	}
-    
-    public void disconnect() throws StatisticsException
+
+	public void disconnect() throws StatisticsException
 	{
 		disconnect(10000); // 10 second timeout by default
 	}
