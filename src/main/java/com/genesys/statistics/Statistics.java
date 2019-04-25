@@ -213,7 +213,7 @@ public class Statistics
 	{
 		try
 		{
-			PeekedStatisticResponse response = api.getStatValue(statisticName, objectId, objectType);
+			PeekedStatisticResponse response = api.getStatValue(objectId, objectType, statisticName);
 			Util.throwIfNotOk(response.getStatus());
 
 			PeekedStatistic data = response.getData();
